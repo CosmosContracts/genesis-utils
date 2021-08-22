@@ -1,0 +1,16 @@
+{
+  "name": "juno-gensis-utils",
+  "version": "1.0.0",
+  "description": "add vesting accounts to cosmos-sdk genesis",
+  "main": "index.js",
+  "scripts": {
+    "add-vesting-account": "node periodic-vesting.js",
+    "set-params": "node params.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bech32": "^2.0.0",
+    "neat-csv": "^6.0.1"
+  }
+}
