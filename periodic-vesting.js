@@ -115,14 +115,6 @@ var main = async () => {
   vestingAccount.base_vesting_account.original_vesting[0].amount =
     totalVested.toString();
 
-  // Add or replace account to genesis
-  var accountIndex = accounts.findIndex((e) => e.address == address);
-  if (accountIndex === -1) {
-    accounts.push(vestingAccount);
-  } else {
-    accounts[accountIndex] = vestingAccount;
-  }
-
   // Add bank balance
   const balances = genesis.app_state.bank.balances;
 
@@ -134,8 +126,22 @@ var main = async () => {
     // Find juno
     var junoBalance = balance.coins.find((e) => e.denom === DENOM);
 
+    // We need to add also a period with lenght 0 on top of the others with the unlocked amount
+    vestingAccount.vesting_periods.unshift({
+      length: 0,
+      amount: [
+        {
+          amount: junoBalance.amount.toString(),
+          denom: DENOM,
+        },
+      ],
+    });
+
     var newAmount = parseInt(junoBalance.amount) + totalVested;
+
     junoBalance.amount = newAmount.toString();
+    vestingAccount.base_vesting_account.original_vesting[0].amount =
+      newAmount.toString();
   } else {
     balances.push({
       address: address,
@@ -146,6 +152,14 @@ var main = async () => {
         },
       ],
     });
+  }
+
+  // Add or replace account to genesis
+  var accountIndex = accounts.findIndex((e) => e.address == address);
+  if (accountIndex === -1) {
+    accounts.push(vestingAccount);
+  } else {
+    accounts[accountIndex] = vestingAccount;
   }
 
   // Recalculate total supply
