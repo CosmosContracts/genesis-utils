@@ -149,6 +149,10 @@ var main = async () => {
   }
 
   // Recalculate total supply
+  var curSupply = parseInt(genesis.app_state.bank.supply[0].amount);
+  genesis.app_state.bank.supply[0].amount = (
+    curSupply + totalVested
+  ).toString();
 
   // write genesis file
   fs.writeFileSync(genesisFile, JSON.stringify(genesis, null, 2));
