@@ -47,7 +47,7 @@ var main = async () => {
   // Set gov params
   genesis.app_state.gov.deposit_params.min_deposit[0].amount = "500000000";
   genesis.app_state.gov.deposit_params.max_deposit_period = "864000s";
-  genesis.app_state.gov.voting_params.voting_period = "864000s";
+  genesis.app_state.gov.voting_params.voting_period = "432000s";
   genesis.app_state.gov.tally_params.quorum.quorum = "0.30";
 
   // Set validator params
